@@ -37,7 +37,7 @@ struct algebra{
         return ans;
     }
 
-    algebra binpow(const algebra n, long long k){
+    static algebra binpow(const algebra n, long long k){
         algebra res;
         if (k == 0){
             res.n = 1;
