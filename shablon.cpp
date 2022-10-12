@@ -112,6 +112,17 @@ ostream& operator<<(ostream& o, const map<X, Y> & mp)
     return o;
 }
 
+//вывод set
+template<typename T>
+ostream& operator<<(ostream& o, const set<T> & st)
+{
+    for (auto elem: st){
+        o << elem << " ";
+    }
+    o << '\n';
+    return o;
+}
+
 void fast() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
