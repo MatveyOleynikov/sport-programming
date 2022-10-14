@@ -35,4 +35,14 @@ struct graph{
         }
         return o;
     }
+    
+    graph og(){
+        graph res;
+        for (int u = 1; u <= n; ++u){
+            for (auto v: g[u]){
+                res.g[v].push_back(u);
+            }
+        }
+        return res;
+    }
 };
