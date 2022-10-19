@@ -1,9 +1,9 @@
 struct perebor_C{
-    static int calc(vi& a){
+    int calc(vi& a){
         return 0;
     }
 
-    static int C(int n, int k, vi& a){
+    int C(int n, int k, vi& a){
         if (n == k){
             return calc(a);
         }
