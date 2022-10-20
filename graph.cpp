@@ -2,6 +2,17 @@ struct graph{
     long long n, m;
     vector<vector<long long>> g;
 
+    graph(){
+        n = 0;
+        m = 0;
+    }
+
+    graph(int col){
+        n = col;
+        g.resize(n + 1);
+        m = 0;
+    }
+
     friend ostream& operator<<(ostream& o, const graph& cur)
     {
         o << "Vertexes: " << cur.n << "\n";
@@ -34,6 +45,12 @@ struct graph{
             cur.g[v].push_back(u);
         }
         return o;
+    }
+    
+    void add_edge(int u, int v){
+        g[u].push_back(v);
+        g[v].push_back(u);
+        m++;
     }
     
     graph og(){
