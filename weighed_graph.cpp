@@ -2,6 +2,17 @@ struct weighed_graph{
     long long n, m;
     vector<vector<pair<long long, long long>>> g;
 
+    weighed_graph(){
+        n = 0;
+        m = 0;
+    }
+
+    weighed_graph(int col){
+        n = col;
+        g.resize(n + 1);
+        m = 0;
+    }
+    
     friend ostream& operator<<(ostream& o, const weighed_graph& cur)
     {
         o << "Vertexes: " << cur.n << "\n";
@@ -39,6 +50,12 @@ struct weighed_graph{
             cur.g[v].push_back({u, w});
         }
         return o;
+    }
+
+    void add_edge(int u, int v, int w){
+        g[u].push_back({v, w});
+        g[v].push_back({u, w});
+        m++;
     }
 
     vector<long long> djkstra(long long start){
