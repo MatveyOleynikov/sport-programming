@@ -131,9 +131,7 @@ void fast() {
 }
 
 void solve(){
-    int n;
-    cin >> n;
-    cout << n;
+    
     return;
 }
 
