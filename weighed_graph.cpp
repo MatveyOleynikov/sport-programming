@@ -58,7 +58,7 @@ struct weighed_graph{
         m++;
     }
 
-    vector<long long> djkstra(long long start){
+    vector<long long> djkstra(long long start){ //тут 1-индексация и это важноо!!!!!
         vector<long long> ans(n + 1);
         vector<long long> pr(n + 1);
         for (long long i = 1; i <= n; i++) {
