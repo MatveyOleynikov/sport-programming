@@ -26,7 +26,7 @@ struct seg_tree{ /// 0 - индексация
 
         update(cur_ind * 2, L, m, ind, val);
         update(cur_ind * 2 + 1, m + 1, R, ind, val);
-        t[cur_ind] = t[cur_ind * 2] + t[cur_ind * 2 + 1];
+        t[cur_ind] = func(t[cur_ind * 2], t[cur_ind * 2 + 1]);
     }
 
     int get(int cur_ind, int L, int R, int l, int r){
