@@ -61,7 +61,7 @@ struct weighed_graph{
     vector<long long> djkstra(long long start){ //тут 1-индексация и это важноо!!!!!
         vector<long long> ans(n + 1);
         vector<long long> pr(n + 1);
-        for (long long i = 1; i <= n; i++) {
+        for (long long i = 0; i <= n; i++) {
             ans[i] = inf64;
             pr[i] = -1;   //Значение, обозначающее что из этой вершины возвращаться некуда
         }
