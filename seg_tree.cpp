@@ -5,7 +5,7 @@ struct seg_tree{ /// 0 - индексация
 
     seg_tree(int n){
         this->n = n;
-        t.resize(n);
+        t.resize(n * 4 + 1);
     }
 
     int func(int a, int b){
@@ -19,12 +19,14 @@ struct seg_tree{ /// 0 - индексация
 
         if (L == R){
             t[cur_ind] = val;
+            return;
         }
 
         int m = (R + L) / 2;
 
         update(cur_ind * 2, L, m, ind, val);
         update(cur_ind * 2 + 1, m + 1, R, ind, val);
+        t[cur_ind] = t[cur_ind * 2] + t[cur_ind * 2 + 1];
     }
 
     int get(int cur_ind, int L, int R, int l, int r){
@@ -46,5 +48,13 @@ struct seg_tree{ /// 0 - индексация
 
     int get(int l, int r){
         return get(1, 0, n - 1, l, r);
+    }
+
+    friend ostream& operator<<(ostream& o, const seg_tree& cur)
+    {
+        for (long long u = 1; u < cur.t.size(); ++u){
+            o << u << " " << cur.t[u] << "\n";
+        }
+        return o;
     }
 };
