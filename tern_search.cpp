@@ -10,5 +10,5 @@
     }
 
     int k = l;
-    if (check_ans(l, a, n, q) < check_ans(r, a, n, q)) k = r;
-    if (check_ans(l, a, n, q) < check_ans(l + 1, a, n, q)) k = r;
+    if (check_ans(l, a, n, q) < check_ans(l + 1, a, n, q)) k = l + 1;
+    if (check_ans(l, a, n, q) < check_ans(l + 1, a, n, q)) k = l + 1;
