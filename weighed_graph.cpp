@@ -9,7 +9,7 @@ struct weighed_graph{
 
     weighed_graph(int col){
         n = col;
-        g.resize(n + 1);
+        g.resize(n);
         m = 0;
     }
 
@@ -18,7 +18,7 @@ struct weighed_graph{
         o << "Vertexes: " << cur.n << "\n";
         o << "Edges: " << cur.m << "\n";
 
-        for (long long u = 1; u <= cur.n; ++u){
+        for (long long u = 0; u < cur.n; ++u){
             o << u << ":";
             o << '(';
             for (auto [v, w]: cur.g[u]){
@@ -38,14 +38,14 @@ struct weighed_graph{
     friend istream& operator>>(istream& o, weighed_graph& cur)
     {
         o >> cur.n;
-        cur.g.resize(cur.n + 1);
+        cur.g.resize(cur.n);
 
         o >> cur.m;
         for (long long i = 0; i < cur.m; ++i){
             long long u, v, w;
-            o >> u;
-            o >> v;
-            w = i + 1;
+            o >> u; u--;
+            o >> v; v--;
+            o >> w;
             cur.g[u].push_back({v, w});
             cur.g[v].push_back({u, w});
         }
@@ -58,10 +58,10 @@ struct weighed_graph{
         m++;
     }
 
-    vector<long long> djkstra(long long start){ //тут 1-индексация и это важноо!!!!!
-        vector<long long> ans(n + 1);
-        vector<long long> pr(n + 1);
-        for (long long i = 0; i <= n; i++) {
+    vector<long long> djkstra(long long start){
+        vector<long long> ans(n);
+        vector<long long> pr(n);
+        for (long long i = 0; i < n; i++) {
             ans[i] = inf64;
             pr[i] = -1;   //Значение, обозначающее что из этой вершины возвращаться некуда
         }
@@ -109,7 +109,7 @@ struct weighed_graph{
         }*/ /// если нужен сам путь
     }
 
-    weighed_graph kraskal(){ ///1 - индексация
+    weighed_graph kraskal(){
         struct snm{
             long long n;
             vector<long long> clr;
@@ -149,21 +149,19 @@ struct weighed_graph{
 
         weighed_graph res(n);
 
-        snm my_snm(this->n + 1);
+        snm my_snm(this->n);
 
         vector<pair<int, pii>> edges;
 
         dbg(edges);
 
-        for (int i = 1; i <= this->n; ++i){
+        for (int i = 0; i < this->n; ++i){
             for (auto elem: this->g[i]){
                 edges.push_back({elem.second, {i, elem.first}});
             }
         }
 
         sort(all(edges));
-
-        //dbg(edges);
 
         for (auto elem: edges){
             if (!my_snm.equal_snm(elem.second.first, elem.second.second)){
