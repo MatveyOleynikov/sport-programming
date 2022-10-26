@@ -14,6 +14,10 @@ struct snm{
         }
     }
 
+    bool equal_snm(int u, int v){
+        return clr[u] == clr[v];
+    }
+
     snm(long long n){
         this->n = n;
 
