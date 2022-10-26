@@ -23,11 +23,11 @@ struct root_tree_1{
     friend istream& operator>>(istream& o, root_tree_1& cur)
     {
         o >> cur.n;
-        cur.g.resize(cur.n + 1);
+        cur.g.resize(cur.n);
 
-        for (long long i = 2; i <= cur.n; ++i){
+        for (long long i = 1; i < cur.n; ++i){
             long long parent;
-            cin >> parent;
+            cin >> parent; parent--;
             cur.g[parent].push_back(i);
         }
         return o;
