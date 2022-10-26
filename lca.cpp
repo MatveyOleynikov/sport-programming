@@ -19,8 +19,6 @@ struct lca{
     }
 
     lca(weighed_graph g, int root){
-        dbg(g);
-        dbg(root);
         int n = g.n;
         l = 1;
         while ((1<<l) <= n)  ++l;
@@ -30,7 +28,6 @@ struct lca{
         tin.resize(n), tout.resize(n);
         timer = 0;
 
-        dbg(l);
         dfs(g, root);
     }
 
