@@ -5,7 +5,7 @@ struct snm{
 
     void join(long long color1, long long color2){
         if (color1 == color2){
-            continue;
+            return;
         }
        
         if (obr_clr[color1].size() < obr_clr[color2].size()){
