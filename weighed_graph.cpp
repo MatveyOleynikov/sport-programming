@@ -12,7 +12,7 @@ struct weighed_graph{
         g.resize(n + 1);
         m = 0;
     }
-    
+
     friend ostream& operator<<(ostream& o, const weighed_graph& cur)
     {
         o << "Vertexes: " << cur.n << "\n";
@@ -45,7 +45,7 @@ struct weighed_graph{
             long long u, v, w;
             o >> u;
             o >> v;
-            o >> w;
+            w = i + 1;
             cur.g[u].push_back({v, w});
             cur.g[v].push_back({u, w});
         }
@@ -96,21 +96,82 @@ struct weighed_graph{
 
         return ans;
         /*vector<long long> path;
-
         long long cur = end;
         path.push_back(cur);
-
         while (pr[cur] != -1) {
             cur = pr[cur];
             path.push_back(cur);
         }
-
         reverse(path.begin(), path.end());
-
         cout << "Shortest path between vertices " << start + 1 << " and " << end + 1 << " is: " << endl;
-
         for (long long v: path) {
             cout << v + 1 << ", ";
         }*/ /// если нужен сам путь
+    }
+
+    weighed_graph kraskal(){ ///1 - индексация
+        struct snm{
+            long long n;
+            vector<long long> clr;
+            vector<vector<long long>> obr_clr;
+
+            void join(long long color1, long long color2){
+                if (obr_clr[color1].size() < obr_clr[color2].size()){
+                    swap(color1, color2);
+                }
+
+                for (auto elem: obr_clr[color2]){
+                    obr_clr[color1].push_back(elem);
+                    clr[elem] = color1;
+                }
+            }
+
+            bool equal_snm(int u, int v){
+                return clr[u] == clr[v];
+            }
+
+            void join_elems(int u, int v){
+                join(clr[u], clr[v]);
+            }
+
+            snm(long long n){
+                this->n = n;
+
+                clr.resize(n);
+                obr_clr.resize(n);
+
+                for (int i = 0; i < n; ++i){
+                    clr[i] = i;
+                    obr_clr[i].push_back(i);
+                }
+            }
+        };
+
+        weighed_graph res(n);
+
+        snm my_snm(this->n + 1);
+
+        vector<pair<int, pii>> edges;
+
+        dbg(edges);
+
+        for (int i = 1; i <= this->n; ++i){
+            for (auto elem: this->g[i]){
+                edges.push_back({elem.second, {i, elem.first}});
+            }
+        }
+
+        sort(all(edges));
+
+        //dbg(edges);
+
+        for (auto elem: edges){
+            if (!my_snm.equal_snm(elem.second.first, elem.second.second)){
+                my_snm.join_elems(elem.second.first, elem.second.second);
+                res.add_edge(elem.second.first, elem.second.second, elem.first);
+            }
+        }
+
+        return res;
     }
 };
