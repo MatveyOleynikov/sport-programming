@@ -14,6 +14,10 @@ struct snm{
         }
     }
 
+    void join_elems(int u, int v){
+        join(clr[u], clr[v]);
+    }
+
     bool equal_snm(int u, int v){
         return clr[u] == clr[v];
     }
