@@ -9,7 +9,7 @@ struct graph{
 
     graph(int col){
         n = col;
-        g.resize(n + 1);
+        g.resize(n);
         m = 0;
     }
 
@@ -18,7 +18,7 @@ struct graph{
         o << "Vertexes: " << cur.n << "\n";
         o << "Edges: " << cur.m << "\n";
 
-        for (long long u = 1; u <= cur.n; ++u){
+        for (long long u = 0; u < cur.n; ++u){
             o << u << ":";
             o << '(';
             for (auto v: cur.g[u]){
@@ -34,13 +34,13 @@ struct graph{
     friend istream& operator>>(istream& o, graph& cur)
     {
         o >> cur.n;
-        cur.g.resize(cur.n + 1);
+        cur.g.resize(cur.n);
 
         o >> cur.m;
         for (long long i = 0; i < cur.m; ++i){
             long long u, v;
-            o >> u;
-            o >> v;
+            o >> u; u--;
+            o >> v; v--;
             cur.g[u].push_back(v);
             cur.g[v].push_back(u);
         }
@@ -55,7 +55,7 @@ struct graph{
     
     graph og(){
         graph res;
-        for (int u = 1; u <= n; ++u){
+        for (int u = 0; u < n; ++u){
             for (auto v: g[u]){
                 res.g[v].push_back(u);
             }
