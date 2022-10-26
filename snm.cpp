@@ -4,6 +4,10 @@ struct snm{
     vector<vector<long long>> obr_clr;
 
     void join(long long color1, long long color2){
+        if (color1 == color2){
+            continue;
+        }
+       
         if (obr_clr[color1].size() < obr_clr[color2].size()){
             swap(color1, color2);
         }
