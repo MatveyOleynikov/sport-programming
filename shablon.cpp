@@ -27,7 +27,7 @@ using namespace std;
 #define maxe(a)    (*max_element(all(a)))
 #define mini(a)    ( min_element(all(a)) - (a).begin())
 #define maxi(a)    ( max_element(all(a)) - (a).begin())
-#define rep(x,to)  for(int x = 0; x < (to); ++x)
+#define rep(x, from, to)  for(int x = from; x < (to); ++x)
 
 using ll = long long;
 using ld = long double;
@@ -131,7 +131,7 @@ void fast() {
 }
 
 void solve(){
-    
+
     return;
 }
 
