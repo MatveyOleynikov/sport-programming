@@ -31,7 +31,7 @@ struct ahokaras{
             if (next[cur][s[i] - 'a'] == -1){
                 next.push_back(vi(12, -1));
                 next[cur][s[i] - 'a'] = sz;
-                val.push_back(0);
+                val.push_back(val[cur]);
                 link.push_back(-1);
 
                 sz++;
