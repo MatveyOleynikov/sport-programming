@@ -1,9 +1,9 @@
 struct perebor_P{
-    int calc_mas(vi &b){
+    static int calc_mas(vi &b){
         return 0;
     }
     /// можно переписывать
-    int calc(vi& per, vi &a){
+    static int calc(vi& per, vi &a){
         vi b;
         for (int i = 0; i < per.size(); ++i){
             b.push_back(a[per[i]]);
@@ -12,7 +12,7 @@ struct perebor_P{
         return calc_mas(b);;
     }
 
-    int P(int n, int k, vi& a, vi& us){
+    static int P(int n, int k, vi& a, vi& us){
         if (n == k){
             return calc(a, our);
         }
