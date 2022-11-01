@@ -32,7 +32,7 @@ struct ahokaras{
                 next.push_back(vi(12, -1));
                 next[cur][s[i] - 'a'] = sz;
                 val.push_back(0);
-                link.push_back(-1);
+                link.push_back(0);
 
                 sz++;
             }
