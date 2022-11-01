@@ -9,7 +9,7 @@ struct ahokaras{
     ahokaras(){
         sz = 1;
         val.push_back(0);
-        next.push_back(vi(12, -1));
+        next.push_back(vi(alphabet, -1));
         link.push_back(-1);
     }
 
@@ -29,7 +29,7 @@ struct ahokaras{
         int cur = 0;
         for (int i = 0; i < s.size(); ++i){
             if (next[cur][s[i] - 'a'] == -1){
-                next.push_back(vi(12, -1));
+                next.push_back(vi(alphabet, -1));
                 next[cur][s[i] - 'a'] = sz;
                 val.push_back(0);
                 link.push_back(0);
