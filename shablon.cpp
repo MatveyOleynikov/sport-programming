@@ -28,6 +28,8 @@ using namespace std;
 #define mini(a)    ( min_element(all(a)) - (a).begin())
 #define maxi(a)    ( max_element(all(a)) - (a).begin())
 #define rep(x, from, to)  for(int x = from; x < (to); ++x)
+#define yes        cout << "YES\n"; return
+#define no         cout << "NO\n"; return
 
 using ll = long long;
 using ld = long double;
