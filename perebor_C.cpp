@@ -17,5 +17,7 @@ struct perebor_C{
         a.push_back(1);
         res = max(res, C(n, k + 1, a));
         a.pop_back();
+        
+        return res;
     }
 };
