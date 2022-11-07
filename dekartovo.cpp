@@ -1,91 +1,163 @@
-struct item {
-	int key, prior, cnt;
-	item * l, * r;
-	item (int key) : key(key), prior(rand() < 16 + rand()), cnt(1), l(NULL), r(NULL) { }
+template<typename T>
+struct dekartovo{
+    /// поиск количества меньших и тд
+    /// операции на отрезке
 
-	typedef item * pitem;
+    vector<T> key;
+    vi prior;
+    vi l, r;
+    vi deti;
+    int root = -1;
+    int sz = 0;
 
-    static int count (pitem t) {
-        return t ? t->cnt : INT(0);
+    int get_deti(int cur){
+        return ((cur == -1) ? 0 : deti[cur]);
     }
 
-	static void upd_cnt (pitem t) {
-        if (t)
-            t->cnt = 1 + count(t->l) + count(t->r);
+    void update(int cur) {
+        if (cur == -1) {
+          return;
+        }
+        deti[cur] = 1 + get_deti(l[cur]) + get_deti(r[cur]);
     }
 
-    static void split (pitem t, int key, pitem & l, pitem & r) {
-        if (!t)
-            l = r = NULL;
-        else if (key < t->key)
-            split (t->l, key, l, t->l),  r = t;
+    void split (int cur, T split_key, int& split_l, int& split_r) {
+        if (cur == -1){
+            split_l = split_r = -1; return;
+        }
+
+        if (split_key < key[cur])
+            split (l[cur], split_key, split_l, l[cur]),  split_r = cur;
         else
-            split (t->r, key, t->r, r),  l = t;
-        upd_cnt (t);
+            split (r[cur], split_key, r[cur], split_r),  split_l = cur;
+
+        update(split_l);
+        update(split_r);
     }
 
-    static void insert (pitem & t, pitem it) {
-        if (!t)
-            t = it;
-        else if (it->prior > t->prior)
-            split (t, it->key, it->l, it->r),  t = it;
+    void insert (int& cur, T val) {
+        dbg(cur);
+        if (cur == -1)
+            cur = sz - 1;
+        else if (prior.back() > prior[cur])
+            split (cur, key.back(), l.back(), r.back()),  cur = sz - 1;
         else
-            insert (it->key < t->key ? t->l : t->r, it);
+            insert (key.back() < key[cur] ? l[cur] : r[cur], val);
+
+        dbg(cur);
+        update(cur);
     }
 
-    static void merge (pitem & t, pitem l, pitem r) {
-        if (!l || !r)
-            t = l ? l : r;
-        else if (l->prior > r->prior)
-            merge (l->r, l->r, r),  t = l;
-        else
-            merge (r->l, l, r->l),  t = r;
-        upd_cnt (t);
+    void insert (T val){ /// добавление элемента
+        prior.push_back(rand() << 16 + rand());
+        key.push_back(val);
+        l.push_back(-1);
+        r.push_back(-1);
+        deti.push_back(1);
+        sz++;
+
+        insert(root, val);
     }
 
-    static void erase (pitem & t, int key) {
-        if (t->key == key)
-            merge (t, t->l, t->r);
-        else
-            erase (key < t->key ? t->l : t->r, key);
-    }
-
-    private : static int count_smaller(pitem t, int val){
-        if (!t){
+    bool find(int cur, T found_key){
+        if (cur == -1){
             return 0;
         }
+        if (key[cur] == found_key){
+            return 1;
+        }
+        if (key[cur] > found_key){
+            return find(l[cur], found_key);
+        }
+        if (key[cur] < found_key){
+            return find(r[cur], found_key);
+        }
+    }
 
-        if (t->key < val){
-            return count(t->l) + count_smaller(t->r, val) + 1;
+    bool find(T found_key){ /// поиск элемента
+        return find(root, found_key);
+    }
+
+    void merge (int &cur, int merge_l, int merge_r) {
+        if (merge_l == -1){
+            cur = merge_r;
+            return;
+        }
+        if (merge_r == -1){
+            cur = merge_l;
+            return;
         }
 
-        return count_smaller(t->l, val);
+        if (prior[merge_l] > prior[merge_r])
+            merge (r[merge_l], r[merge_l], merge_r),  cur = merge_l;
+        else
+            merge (l[merge_r], merge_l, l[merge_r]),  cur = merge_r;
+
+        update(merge_l);
+        update(merge_r);
     }
 
-    public: static int smaller(pitem t, int val){ ///количество элементов меньших данного
-        return count_smaller(t, val) - 1;
+    void erase (int &cur, T erase_key) {
+        if (key[cur] == erase_key)
+            merge (cur, l[cur], r[cur]);
+        else
+            erase (erase_key < key[cur] ? l[cur] : r[cur], erase_key);
+
+        update(cur);
     }
 
-    static int count_bigger(pitem t, int val){ /// количество элементов больших данного
+    void erase(T erase_key){ /// удаление элемента
+        if (this->find(erase_key)){
+            erase(root, erase_key);
+        }
+    }
 
+    T kol(int cur, int k){
+        if (k > get_deti(cur)){
+            exit(1);
+        }
+
+        if (k == get_deti(l[cur]) + 1){
+            return key[cur];
+        }
+
+        if (k < get_deti(l[cur]) + 1){
+            return kol(l[cur], k);
+        }
+
+        if (k > get_deti(l[cur]) + 1){
+            return kol(r[cur], k - (get_deti(l[cur]) + 1));
+        }
+    }
+
+    T operator[](int k){ /// вывод k-го элемента в 0-индексации
+        return kol(root, k + 1);
+    }
+
+    friend ostream& operator<<(ostream& o, const dekartovo& cur){ /// вывод дерева для дебага
+        o << "root: " << cur.root << "\n";
+        o << "size: " << cur.deti[cur.root] << "\n";
+        return o;
     }
 };
 
-typedef item * pitem;
-
-
 /// пример использования
 void solve(){
-    pitem root = new item(-inf64);
+    dekartovo<string> drv;
 
-    for (int i = 7; i <= 123; i += 8){
-        pitem add = new item(i);
-        item::insert(root, add);
+    drv.insert("a");
+    drv.insert("b");
+    drv.insert("c");
+
+    cout << drv;
+
+    drv.erase("b");
+
+    cout << drv;
+
+    for (int i = 0; i < 2; ++i){
+        cout << drv[i] << "\n";
     }
-
-    cout << item::smaller(root, 27) << "\n";
-
-    cout << root->key << " " << root->l->key << " " << root->r->key << "\n";
 
     return;
 }
