@@ -1,8 +1,5 @@
 template<typename T>
 struct dekartovo{
-    /// поиск количества меньших и тд
-    /// операции на отрезке
-
     vector<T> key;
     vi prior;
     vi l, r;
@@ -36,7 +33,6 @@ struct dekartovo{
     }
 
     void insert (int& cur, T val) {
-        dbg(cur);
         if (cur == -1)
             cur = sz - 1;
         else if (prior.back() > prior[cur])
@@ -44,12 +40,11 @@ struct dekartovo{
         else
             insert (key.back() < key[cur] ? l[cur] : r[cur], val);
 
-        dbg(cur);
         update(cur);
     }
 
     void insert (T val){ /// добавление элемента
-        prior.push_back(rand() << 16 + rand());
+        prior.push_back(INT(rand() << 16) + INT(rand()));
         key.push_back(val);
         l.push_back(-1);
         r.push_back(-1);
@@ -139,12 +134,60 @@ struct dekartovo{
         o << "size: " << cur.deti[cur.root] << "\n";
         return o;
     }
+
+    int smaller_or_equal(T k, int cur){  /// количество элементов меньших или равных k (далее аналогично)
+        if (cur == -1){
+            return 0;
+        }
+
+        if (key[cur] <= k){
+            return get_deti(l[cur]) + 1 + smaller_or_equal(k, r[cur]);
+        }
+
+        if (key[cur] > k){
+            return smaller_or_equal(k, l[cur]);
+        }
+    }
+
+    int bigger_or_equal(T k, int cur){
+        if (cur == -1){
+            return 0;
+        }
+
+        if (key[cur] >= k){
+            return get_deti(r[cur]) + 1 + bigger_or_equal(k, l[cur]);
+        }
+
+        if (key[cur] < k){
+            return bigger_or_equal(k, r[cur]);
+        }
+    }
+
+    int smaller_or_equal(T k){
+        return smaller_or_equal(k, root);
+    }
+
+    int bigger_or_equal(T k){
+        return bigger_or_equal(k, root);
+    }
+
+    int equal(T k){
+        return smaller_or_equal(k) + bigger_or_equal(k) - deti[root];
+    }
+
+    int bigger(T k){
+        return deti[root] - smaller_or_equal(k);
+    }
+
+    int smaller(T k){
+        return deti[root] - bigger_or_equal(k);
+    }
 };
 
-/// пример использования
 void solve(){
     dekartovo<string> drv;
 
+    drv.insert("a");
     drv.insert("a");
     drv.insert("b");
     drv.insert("c");
@@ -155,9 +198,7 @@ void solve(){
 
     cout << drv;
 
-    for (int i = 0; i < 2; ++i){
-        cout << drv[i] << "\n";
-    }
-
+    cout << drv.equal("a") << " " << drv.smaller("a") << " " << drv.smaller_or_equal("a") << "\n";
+    cout << drv.bigger("a") << " " << drv.bigger_or_equal("a") << "\n";
     return;
 }
