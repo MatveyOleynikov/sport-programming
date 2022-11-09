@@ -44,7 +44,7 @@ struct dekartovo{
     }
 
     void insert (T val){ /// добавление элемента
-        prior.push_back(INT(rand() << 16) + INT(rand()));
+        prior.push_back(INT(rand()) << 16 + INT(rand()));
         key.push_back(val);
         l.push_back(-1);
         r.push_back(-1);
