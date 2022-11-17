@@ -104,7 +104,7 @@ struct algebra{
     }
 
     algebra(long long n){
-        this->n = n;
+        this->n = n % mod;
     }
 
     algebra(){
