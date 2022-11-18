@@ -39,8 +39,7 @@ using vvi = vector<vector<long long>>;
 
 const ld eps = 1e-9;
 const ld pi = acos(-1.0);
-const int inf = 1000 * 1000 * 1000 + 1;
-const ll inf64 = ll(inf) * inf;
+const ll inf = (1000 * 1000 * 1000 + 1) * (1000 * 1000 * 1000 + 1);
 const ll mod1 = 1e9 + 7;
 const ll mod2 = 998244353;
 const ll alphabet = 26;
