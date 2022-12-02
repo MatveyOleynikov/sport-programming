@@ -1,5 +1,7 @@
 namespace geom
 {
+    const double eps = 1e-10;
+
     template<class T>
     struct vec_t {
         T x, y;
@@ -67,6 +69,8 @@ namespace geom
         line(const double &a, const double &b, const double &c) : a(a), b(b), c(c) {}
         friend ostream& operator << (ostream& o, const line &l)
         { return o << l.a << " " << l.b << " " << l.c << "\n"; }
+        friend istream& operator >> (istream& o, line &l)
+        { return o >> l.a >> l.b >> l.c; }
     };
 
 
@@ -139,5 +143,32 @@ namespace geom
         line ans(A, B, C);
 
         return ans;
+    }
+
+    double dist(line l, point p){
+        line norm;
+        norm.a = l.b;
+        norm.b = -l.a;
+        norm.c = -(norm.a * p.x + norm.b * p.y);
+        //cout << c << endl;
+
+        double x, y;
+        if (norm.a == 0){
+            y = -norm.c / norm.b;
+        }   else{
+            double k = l.a / norm.a;
+            l.a -= norm.a * k;
+            l.b -= norm.b * k;
+            l.c -= norm.c * k;
+            y = -l.c / l.b;
+        }
+        if (norm.a){
+            x = (-norm.c - y * norm.b) / norm.a;
+        }
+        else if (l.a){
+            x = (-l.c - y * l.b) / l.a;
+        }
+
+        return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
     }
 }
