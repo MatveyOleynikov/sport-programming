@@ -60,6 +60,8 @@ namespace geom
         { ostringstream o; o << "(" << x << ", " << y << ")"; return o.str(); }
         friend ostream& operator << (ostream& o, const vec_t &a)
         { return o << a.to_string(); }
+        friend istream& operator >> (istream& o, const vec_t &a)
+        { return o >> a.x >> a.y; }
     };
 }
 
