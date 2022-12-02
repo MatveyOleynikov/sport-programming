@@ -1,6 +1,6 @@
 struct algebra{
     static const long long mas = 1e6 + 1; /// важно чекнуть mas
-    static const long long mod = 998244353; /// важно чекнуть модуль
+    static const long long mod = 1e9 + 7; /// важно чекнуть модуль
     long long n;
 
     algebra operator =(const algebra& other){
@@ -91,8 +91,30 @@ struct algebra{
         return fac[n.n];
     }
 
+    static vector<algebra> calc_ifac(){
+        vector<algebra> fac;
+
+        algebra cur = 1;
+        fac.push_back(cur);
+
+        for (long long i = 1; i <= mas; ++i){
+            algebra next = i;
+
+            cur = cur * next;
+            algebra one(1);
+            fac.push_back(one / cur);
+        }
+
+        return fac;
+    }
+
+    static algebra ifac(algebra n){
+        static vector<algebra> ifac = calc_ifac();
+        return ifac[n.n];
+    }
+
     static algebra C(algebra n, algebra k){
-        return fac(n) / fac(k) / fac(n - k);
+        return fac(n) * ifac(k) * ifac(n - k);
     }
 
     static algebra P(algebra n){
@@ -100,7 +122,7 @@ struct algebra{
     }
 
     static algebra A(algebra n, algebra k){
-        return fac(n) / fac(n - k);
+        return fac(n) * ifac(n - k);
     }
 
     algebra(long long n){
