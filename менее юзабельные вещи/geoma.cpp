@@ -1,6 +1,5 @@
 namespace geom
 {
-    // tested: uva10002
     template<class T>
     struct vec_t {
         T x, y;
@@ -62,6 +61,14 @@ namespace geom
         { return o >> a.x >> a.y; }
     };
 
+    struct line{
+        double a, b, c;
+        line() { a = b = c = 0; }
+        line(const double &a, const double &b, const double &c) : a(a), b(b), c(c) {}
+        friend ostream& operator << (ostream& o, const line &l)
+        { return o << l.a << " " << l.b << " " << l.c << "\n"; }
+    };
+
 
     using point = vec_t<double>;
 
@@ -99,5 +106,38 @@ namespace geom
             ans += f.cross(s);
         }
         return abs(ans / 2);
+    }
+
+    line median(point x, point y, point z){
+        point v1 = y - x;
+        point v2 = z - x;
+
+        point b = v1 + v2;
+
+        double A = b.y;
+        double B = -b.x;
+        double C = b.cross(x);
+
+        line ans(A, B, C);
+
+        return ans;
+    }
+
+    line bisector(point x, point y, point z){
+        point v1 = y - x;
+        point v2 = z - x;
+
+        v1 = v1.norm();
+        v2 = v2.norm();
+
+        point b = v1 + v2;
+
+        double A = b.y;
+        double B = -b.x;
+        double C = b.cross(x);
+
+        line ans(A, B, C);
+
+        return ans;
     }
 }
