@@ -56,27 +56,48 @@ namespace geom
         { return to_pair() == b.to_pair(); }
         bool operator != (const vec_t &b) const
         { return to_pair() != b.to_pair(); }
-        string to_string() const
-        { ostringstream o; o << "(" << x << ", " << y << ")"; return o.str(); }
         friend ostream& operator << (ostream& o, const vec_t &a)
-        { return o << a.to_string(); }
-        friend istream& operator >> (istream& o, const vec_t &a)
+        { return o << a.x << " " << a.y << "\n"; }
+        friend istream& operator >> (istream& o, vec_t &a)
         { return o >> a.x >> a.y; }
     };
-}
 
-using vec_t = geom::vec_t<float>;
 
-// CONVEX HULL: last point == first point
-vector<vec_t> convex_hull(vector<vec_t> a) {
-    int n = a.size(), k = 0;
-    vector<vec_t> p(n * 2);
-    sort(a.begin(), a.end());
+    using point = vec_t<double>;
 
-    for(int i = 0; i < n; p[k++] = a[i++])
-        while(k > 1 && (p[k - 1] - p[k - 2]).cross(p[k - 1] - a[i]) >= 0) --k;
-    for(int i = n - 2, w = k; i >= 0; p[k++] = a[i--])
-        while(k > w && (p[k - 1] - p[k - 2]).cross(p[k - 1] - a[i]) >= 0) --k;
-    p.resize(k);
-    return p;
+    // CONVEX HULL: last point == first point
+    vector<point> convex_hull(vector<point> a) {
+        int n = a.size(), k = 0;
+        vector<point> p(n * 2);
+        sort(a.begin(), a.end());
+
+        for(int i = 0; i < n; p[k++] = a[i++])
+            while(k > 1 && (p[k - 1] - p[k - 2]).cross(p[k - 1] - a[i]) >= 0) --k;
+        for(int i = n - 2, w = k; i >= 0; p[k++] = a[i--])
+            while(k > w && (p[k - 1] - p[k - 2]).cross(p[k - 1] - a[i]) >= 0) --k;
+        p.resize(k);
+        return p;
+    }
+
+    double angle(point a, point b){
+        long double cosa = a.dot(b) / (a.len() * b.len());
+
+        long double sina = a.cross(b) / (a.len() * b.len());
+
+        long double ans = atan2(sina, cosa);
+
+        if (ans < 0)
+           ans += 2 * pi;
+
+        return ans;
+    }
+
+    double square(vector<point> a){
+        double ans = 0;
+        for (int i = 0; i < a.size(); ++i){
+            point f = a[i], s = a[(i + 1) % a.size()];
+            ans += f.cross(s);
+        }
+        return abs(ans / 2);
+    }
 }
