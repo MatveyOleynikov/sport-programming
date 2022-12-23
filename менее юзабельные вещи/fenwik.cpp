@@ -7,23 +7,23 @@ struct fenwik{
         n = nn;
     }
  
-    int sum_elem (int r)
+    int func(int x, int y){
+        return max(x, y);
+    }
+ 
+    int func_elem (int r)
     {
         int result = 0;
-        for (; r >= 0; r = (r & (r+1)) - 1)
-            result += t[r];
+        for (; r >= 0; r = (r & (r+1)) - 1){
+            result = func(result, t[r]);
+ 
+        }
         return result;
     }
  
-    void inc (int i, int delta)
+    void modify (int i, int delta)
     {
         for (; i < n; i = (i | (i+1)))
-            t[i] += delta;
-    }
- 
-    int sum_otr (int l, int r)
-    {
-        return sum_elem (r) - sum_elem (l-1);
+            t[i] = func(t[i], delta); ///тут очень аккуратно, здесь происходит не изменение, а добавление к элементу при сумме
     }
 };
- 
