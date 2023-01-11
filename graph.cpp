@@ -53,6 +53,7 @@ struct graph{
 
     void add_edge(int u, int v){
         g[u].push_back(v);
+        g[v].push_back(u);
         m++;
     }
 
@@ -98,5 +99,27 @@ struct graph{
         }
 
         return res;
+    }
+
+    vi bfs(int s){
+        vi dist(n, inf);
+        queue<int> q;
+
+        dist[s] = 0;
+        q.push(s);
+
+        while(!q.empty()){
+            int cur = q.front();
+            q.pop();
+
+            for (auto elem: g[cur]){
+                if (dist[elem] == inf){
+                    dist[elem] = dist[cur] + 1;
+                    q.push(elem);
+                }
+            }
+        }
+
+        return dist;
     }
 };
