@@ -37,10 +37,6 @@ struct graph{
 
     friend istream& operator>>(istream& o, graph& cur)
     {
-        o >> cur.n;
-        cur.g.resize(cur.n);
-
-        o >> cur.m;
         for (long long i = 0; i < cur.m; ++i){
             long long u, v;
             o >> u; u--;
