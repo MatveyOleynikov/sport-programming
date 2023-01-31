@@ -1,18 +1,18 @@
 struct big_integer{
-    const int glob_sz = 30;
+    const int glob_sz = 5;
     const int osn = 1e9;
-
+ 
 	int sz;
 	vi vals;
-
+ 
 	big_integer(){sz=0; vals.resize(glob_sz);}
-
+ 
 	big_integer(int n){
 	    if (n > 1e9) exit(1);
 	    sz=1; vals.resize(glob_sz);
 	    vals[0] = n;
     }
-
+ 
 	friend ostream& operator<<(ostream& o, const big_integer& cur){
 		if(!cur.sz){
             o << 0;
@@ -26,7 +26,7 @@ struct big_integer{
                 cpy /= 10;
                 kol++;
             }
-
+ 
             for (int dig = kol; dig < 9; ++dig){
                 o << 0;
             }
@@ -34,12 +34,12 @@ struct big_integer{
         }
         return o;
 	}
-
+ 
     big_integer operator +(const big_integer& other) const{
         int mx = max(this->sz, other.sz);
-
-        dbg(mx);
-
+ 
+        //dbg(mx);
+ 
         big_integer res;
         for(int i = 0; i < mx; i++){
             res.vals[i] += this->vals[i] + other.vals[i];
@@ -48,15 +48,15 @@ struct big_integer{
                 res.vals[i] -= osn;
             }
         }
-
+ 
         res.sz = mx;
         if (res.vals[mx]){
             res.sz = mx + 1;
         }
-
+ 
         return res;
     }
-
+ 
     big_integer operator *(const int& b){
         big_integer cpy;
         cpy.sz = this->sz;
@@ -67,13 +67,27 @@ struct big_integer{
             cpy.vals[i] = INT (cur % osn);
             carry = INT (cur / osn);
         }
-
+ 
         if (cpy.vals[cpy.sz]){
             cpy.sz++;
         }
         return cpy;
     }
-
+ 
+    big_integer operator *(const big_integer& b){
+        big_integer c;
+        for (size_t i=0; i<= this->sz; ++i)
+            for (int j=0, carry=0; j<=(int)b.sz || carry; ++j) {
+                long long cur = c.vals[i+j] + this->vals[i] * 1ll * (j < (int)b.sz ? b.vals[j] : 0) + carry;
+                c.vals[i+j] =  (cur % osn);
+                carry =  (cur / osn);
+            }
+        c.sz = glob_sz - 1;
+        while (c.sz > 1 && c.vals[c.sz -1] == 0)
+            c.sz--;
+        return c;
+    }
+ 
     big_integer operator /(const int& b){
         dbg(b);
         big_integer cpy;
@@ -85,21 +99,21 @@ struct big_integer{
             cpy.vals[i] = INT (cur / b);
             carry = INT (cur % b);
         }
-
+ 
         cpy.sz--;
-
+ 
         if (cpy.vals[cpy.sz]){
             cpy.sz++;
         }
         return cpy;
     }
-
+ 
     big_integer* operator =(const big_integer other){
         this->sz = other.sz;
         this->vals = other.vals;
         return this;
     }
-
+ 
     big_integer* operator =(const int other){
         if (other > 1e9){
             exit(1);
