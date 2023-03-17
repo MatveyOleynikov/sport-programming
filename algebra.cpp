@@ -1,6 +1,6 @@
 struct algebra{
     static const long long mas = 1e6 + 1; /// важно чекнуть mas
-    static const long long mod = 1e9 + 7; /// важно чекнуть модуль
+    static const long long mod = 998244353; /// важно чекнуть модуль
     long long n;
 
     algebra operator =(const algebra& other){
@@ -22,6 +22,14 @@ struct algebra{
         return ans;
     }
 
+    algebra operator +=(const algebra& other){
+        this->n += other.n;
+        if (this->n >= mod){
+            this->n -= mod;
+        }
+        return *this;
+    }
+
     algebra operator -(const algebra& other) const{
         algebra ans;
         ans.n = this->n - other.n;
@@ -31,10 +39,23 @@ struct algebra{
         return ans;
     }
 
+    algebra operator -=(const algebra& other){
+        this->n -= other.n;
+        if (this->n < 0){
+            this->n += mod;
+        }
+        return *this;
+    }
+
     algebra operator *(const algebra& other) const{
         algebra ans;
         ans.n = (this->n * other.n) % mod;
         return ans;
+    }
+
+    algebra operator *=(const algebra& other){
+        this->n = (this->n * other.n) % mod;
+        return *this;
     }
 
     static algebra binpow(const algebra n, long long k){
@@ -57,6 +78,11 @@ struct algebra{
         algebra ans = *this;
         ans = (ans * binpow(other, mod-2));
         return ans;
+    }
+
+    algebra operator /=(const algebra& other){
+        *this = (*this * binpow(other, mod-2));
+        return *this;
     }
 
     friend ostream& operator<<(ostream& o, const algebra& cur)
