@@ -1,4 +1,25 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <bitset>
+#include <set>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <unordered_map>
+#include <fstream>
+#include <unordered_set>
+#include <numeric>
+#include <math.h>
+#include <cassert>
+#include <climits>
+#include <chrono>
+#include <random>
+#pragma warning(disable:4996)
 
 using namespace std;
 
