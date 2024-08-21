@@ -74,9 +74,9 @@ ostream& operator<<(ostream& o, const pair<X, Y>& p)
 
 //ввод вектора
 template<typename T>
-istream& operator>>(istream& o, vector<T> & a)
+istream& operator>>(istream& o, vector<T>& a)
 {
-    for (size_t i = 0; i < a.size(); ++i){
+    for (size_t i = 0; i < a.size(); ++i) {
         o >> a[i];
     }
     return o;
@@ -84,9 +84,9 @@ istream& operator>>(istream& o, vector<T> & a)
 
 //вывод вектора
 template<typename T>
-ostream& operator<<(ostream& o, const vector<T> & a)
+ostream& operator<<(ostream& o, const vector<T>& a)
 {
-    for (size_t i = 0; i < a.size(); ++i){
+    for (size_t i = 0; i < a.size(); ++i) {
         o << a[i] << " ";
     }
     o << '\n';
@@ -95,10 +95,10 @@ ostream& operator<<(ostream& o, const vector<T> & a)
 
 //вывод вектора векторов
 template<typename T>
-ostream& operator<<(ostream& o, const vector<vector<T>> & a)
+ostream& operator<<(ostream& o, const vector<vector<T>>& a)
 {
-    for (size_t i = 0; i < a.size(); ++i){
-        for (size_t j = 0; j < a[i].size(); ++j){
+    for (size_t i = 0; i < a.size(); ++i) {
+        for (size_t j = 0; j < a[i].size(); ++j) {
             o << a[i][j] << " ";
         }
         o << "\n";
@@ -109,11 +109,11 @@ ostream& operator<<(ostream& o, const vector<vector<T>> & a)
 
 //вывод вектора векторов векторов
 template<typename T>
-ostream& operator<<(ostream& o, const vector<vector<vector<T>>> & a)
+ostream& operator<<(ostream& o, const vector<vector<vector<T>>>& a)
 {
-    for (size_t i = 0; i < a.size(); ++i){
-        for (size_t j = 0; j < a[i].size(); ++j){
-            for (size_t k = 0; k < a[i][j].size(); ++k){
+    for (size_t i = 0; i < a.size(); ++i) {
+        for (size_t j = 0; j < a[i].size(); ++j) {
+            for (size_t k = 0; k < a[i][j].size(); ++k) {
                 o << a[i][j][k] << " ";
             }
             o << "\n";
@@ -126,9 +126,9 @@ ostream& operator<<(ostream& o, const vector<vector<vector<T>>> & a)
 
 //вывод map
 template<typename X, typename Y>
-ostream& operator<<(ostream& o, const map<X, Y> & mp)
+ostream& operator<<(ostream& o, const map<X, Y>& mp)
 {
-    for (auto i : mp){
+    for (auto i : mp) {
         o << i;
     }
     o << '\n';
@@ -137,9 +137,9 @@ ostream& operator<<(ostream& o, const map<X, Y> & mp)
 
 //вывод set
 template<typename T>
-ostream& operator<<(ostream& o, const set<T> & st)
+ostream& operator<<(ostream& o, const set<T>& st)
 {
-    for (auto elem: st){
+    for (auto elem : st) {
         o << elem << " ";
     }
     o << '\n';
@@ -152,21 +152,39 @@ void fast() {
     cout.tie(nullptr);
 }
 
-void solve(){
+struct SOLVE {
+
+    void input_data() {
+
+
+    }
+
+    void output_data() {
+        //ANS ans = solve();
+        //ans.output();
+    }
+
+    void solve();
+
+};
+
+void SOLVE::solve() {
+
 
     return;
 }
 
-signed main(){
-    #ifdef MATVEY
-    freopen ("file.txt","r",stdin);
-    #endif
+signed main() {
+#ifdef MATVEY
+    freopen("input.txt", "r", stdin);
+#endif
     fast();
     ll k = 1;
     cin >> k;
 
-    for (ll i = 1; i <= k; ++i){
-        solve();
+    for (ll i = 1; i <= k; ++i) {
+        SOLVE slv;
+        slv.solve();
     }
     return 0;
 }
