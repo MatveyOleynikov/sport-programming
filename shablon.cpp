@@ -24,23 +24,13 @@
 using namespace std;
 
 #ifdef MATVEY
-#define _dbg(x) do { cout << #x << "=" << x << "; "; } while (0)
-#define _name(name, _1, _2, _3, _4, N, ...) name ## N
-#define _dbg1(x) _dbg(x)
-#define _dbg2(x, ...) _dbg(x); _dbg1(__VA_ARGS__)
-#define _dbg3(x, ...) _dbg(x); _dbg2(__VA_ARGS__)
-#define _dbg4(x, ...) _dbg(x); _dbg3(__VA_ARGS__)
-#define dbg(...) do { cout << __LINE__ << ": "; _name(_dbg, __VA_ARGS__, 4, 3, 2, 1, 0)(__VA_ARGS__); cout << endl;} while (0)
+#define dbg(x) do { cout << #x << "=" << x << "; "; } while (0)
 #else
 #define dbg(...)
 #endif
 
-#define X first
-#define Y second
 #define int long long
-#define INT static_cast<long long>
-#define be		begin()
-#define en		end()
+#define INT static_cast<int>
 
 #define all(a)     a.begin(), a.end()
 #define sum(a)     ( accumulate (all(a), 0ll))
@@ -48,22 +38,16 @@ using namespace std;
 #define maxe(a)    (*max_element(all(a)))
 #define mini(a)    ( min_element(all(a)) - (a).begin())
 #define maxi(a)    ( max_element(all(a)) - (a).begin())
-#define rep(x, from, to)  for(int x = from; x < (to); ++x)
 #define yes        cout << "YES\n"; return
 #define no         cout << "NO\n"; return
 
-using ll = long long;
-using ld = long double;
-using pii = pair<ll, ll>;
-using vi = vector<long long>;
-using vvi = vector<vector<long long>>;
+using pii = pair<int, int>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
 
-const ld eps = 1e-9;
-const ld pi = acos(-1.0);
-const ll inf = INT(1000 * 1000 * 1000 + 1) * INT(1000 * 1000 * 1000 + 1);
-const ll mod1 = 1e9 + 7;
-const ll mod2 = 998244353;
-const ll alphabet = 26;
+const int inf = INT(1000 * 1000 * 1000 + 1) * INT(1000 * 1000 * 1000 + 1);
+const int mod1 = 1e9 + 7;
+const int mod2 = 998244353;
 
 //вывод пары
 template<typename X, typename Y>
@@ -107,23 +91,6 @@ ostream& operator<<(ostream& o, const vector<vector<T>>& a)
     return o;
 }
 
-//вывод вектора векторов векторов
-template<typename T>
-ostream& operator<<(ostream& o, const vector<vector<vector<T>>>& a)
-{
-    for (size_t i = 0; i < a.size(); ++i) {
-        for (size_t j = 0; j < a[i].size(); ++j) {
-            for (size_t k = 0; k < a[i][j].size(); ++k) {
-                o << a[i][j][k] << " ";
-            }
-            o << "\n";
-        }
-        o << "\n";
-    }
-    o << '\n';
-    return o;
-}
-
 //вывод map
 template<typename X, typename Y>
 ostream& operator<<(ostream& o, const map<X, Y>& mp)
@@ -153,19 +120,11 @@ void fast() {
 }
 
 struct SOLVE {
-
-    void input_data() {
-
-
-    }
-
-    void output_data() {
-        //ANS ans = solve();
-        //ans.output();
-    }
-
+    void input_data();
+    void output_data();
+    void brute();
+    void generate_data();
     void solve();
-
 };
 
 void SOLVE::solve() {
@@ -179,13 +138,14 @@ signed main() {
     freopen("input.txt", "r", stdin);
 #endif
     fast();
-    ll k = 1;
+    int k = 1;
     cin >> k;
 
-    for (ll i = 1; i <= k; ++i) {
+    for (int i = 1; i <= k; ++i) {
         SOLVE slv;
         slv.solve();
     }
+
     return 0;
 }
 /*
