@@ -24,7 +24,7 @@
 using namespace std;
 
 #ifdef MATVEY
-#define dbg(x) do { cout << #x << "=" << x << "; "; } while (0)
+#define dbg(x) do { cout << __LINE__ << ": " << #x << "=" << x << "; " << endl; } while (0)
 #else
 #define dbg(...)
 #endif
@@ -128,7 +128,7 @@ struct SOLVE {
 };
 
 void SOLVE::solve() {
-
+    dbg("0p0");
 
     return;
 }
