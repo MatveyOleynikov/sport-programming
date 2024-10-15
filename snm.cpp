@@ -1,40 +1,17 @@
 struct snm {
-    int n;
-    vector<int> clr;
-    vector<vector<int>> obr_clr;
-
-    void join(int color1, int color2) {
-        if (color1 == color2) {
-            return;
-        }
-
-        if (obr_clr[color1].size() < obr_clr[color2].size()) {
-            swap(color1, color2);
-        }
-
+    int n; vi clr; vvi obr_clr;
+    void join(int u, int v) {
+        int color1 = clr[u], int color2 = clr[v];
+        if (color1 == color2) return;
+        if (obr_clr[color1].size() < obr_clr[color2].size()) swap(color1, color2);
         for (auto elem : obr_clr[color2]) {
             obr_clr[color1].push_back(elem);
             clr[elem] = color1;
         }
     }
-
-    void join_elems(int u, int v) {
-        join(clr[u], clr[v]);
-    }
-
-    bool equal_snm(int u, int v) {
-        return clr[u] == clr[v];
-    }
-
-    snm(long long n) {
-        this->n = n;
-
-        clr.resize(n);
-        obr_clr.resize(n);
-
+    snm(long long n): n(n), clr(vi(n)), obr_clr(vvi(n)) {
         for (int i = 0; i < n; ++i) {
-            clr[i] = i;
-            obr_clr[i].push_back(i);
+            clr[i] = i; obr_clr[i].push_back(i);
         }
     }
 };
