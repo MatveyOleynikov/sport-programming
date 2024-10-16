@@ -3,19 +3,19 @@ struct lca {
     vi tin, tout;
     vvi up;
 
-    void dfs(vvi& g, int u, int p = -1) {
+    void dfs(vvi& g, int u, int root) {
         tin[u] = ++timer;
-        up[u][0] = p;
+        up[u][0] = root;
         for (int i = 1; i <= l; ++i)
             up[u][i] = up[up[u][i - 1]][i - 1];
-        for (auto v: g[u]) {
-            if (v != p)
+        for (auto v : g[u]) {
+            if (v != root)
                 dfs(g, v, u);
         }
         tout[u] = ++timer;
     }
 
-    lca(int n, vvi g, int root) {
+    lca(int n, vvi g, int root = 0) {
         l = 1;
         while ((1 << l) <= n)  ++l;
         up.resize(n);
@@ -24,7 +24,7 @@ struct lca {
         tin.resize(n), tout.resize(n);
         timer = 0;
 
-        dfs(g, root);
+        dfs(g, root, root);
     }
 
     bool upper(int a, int b) {
