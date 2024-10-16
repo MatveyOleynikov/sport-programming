@@ -3,7 +3,7 @@ struct lca {
     vi tin, tout;
     vvi up;
 
-    void dfs(vvi& g, int u, int p = 0) {
+    void dfs(vvi& g, int u, int p = -1) {
         tin[u] = ++timer;
         up[u][0] = p;
         for (int i = 1; i <= l; ++i)
