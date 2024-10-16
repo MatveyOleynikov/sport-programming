@@ -1,29 +1,25 @@
-struct lca{
+struct lca {
     int timer, l;
     vi tin, tout;
     vvi up;
 
-    void dfs (weighed_graph& g, int v, int p = 0) {
-        dbg(v, p);
-        tin[v] = ++timer;
-        up[v][0] = p;
-        for (int i=1; i<=l; ++i)
-            up[v][i] = up[up[v][i-1]][i-1];
-        dbg(up);
-        for (size_t i=0; i < g.g[v].size(); ++i) {
-            int to = g.g[v][i].first;
-            if (to != p)
-                dfs (g, to, v);
+    void dfs(vvi& g, int u, int p = 0) {
+        tin[u] = ++timer;
+        up[u][0] = p;
+        for (int i = 1; i <= l; ++i)
+            up[u][i] = up[up[u][i - 1]][i - 1];
+        for (auto v: g[u]) {
+            if (v != p)
+                dfs(g, v, u);
         }
-        tout[v] = ++timer;
+        tout[u] = ++timer;
     }
 
-    lca(weighed_graph g, int root){
-        int n = g.n;
+    lca(int n, vvi g, int root) {
         l = 1;
-        while ((1<<l) <= n)  ++l;
+        while ((1 << l) <= n)  ++l;
         up.resize(n);
-        for (int i=0; i< n; ++i)  up[i].resize (l+1);
+        for (int i = 0; i < n; ++i)  up[i].resize(l + 1);
 
         tin.resize(n), tout.resize(n);
         timer = 0;
@@ -31,13 +27,13 @@ struct lca{
         dfs(g, root);
     }
 
-    bool upper (int a, int b) {
+    bool upper(int a, int b) {
         return tin[a] <= tin[b] && tout[a] >= tout[b];
     }
 
-    int zapros (int a, int b){
-        if (upper (a, b))  return a;
-        if (upper (b, a))  return b;
+    int zapros(int a, int b) {
+        if (upper(a, b))  return a;
+        if (upper(b, a))  return b;
         for (int i = l; i >= 0; --i)
             if (!upper(up[a][i], b))
                 a = up[a][i];
