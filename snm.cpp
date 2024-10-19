@@ -1,7 +1,7 @@
 struct snm {
     int n; vi clr; vvi obr_clr;
     void join(int u, int v) {
-        int color1 = clr[u], int color2 = clr[v];
+        int color1 = clr[u], color2 = clr[v];
         if (color1 == color2) return;
         if (obr_clr[color1].size() < obr_clr[color2].size()) swap(color1, color2);
         for (auto elem : obr_clr[color2]) {
