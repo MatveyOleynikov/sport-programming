@@ -155,12 +155,12 @@ struct Polygon {
     vector<Point> poly;
 
     ld area() {
-	    poly.push_back(poly.front());
+	poly.push_back(poly.front());
         ld ans = 0.0;
         for (int i = 1; i < poly.size(); ++i) {
             ans += vectorn(poly[i - 1], poly[i]);
         }
-	    poly.pop_back();
+	poly.pop_back();
         return fabsl(ans) / 2.0;
     }
     
@@ -179,6 +179,27 @@ struct Polygon {
         Polygon pol2; pol2.poly = { poly[0], p, poly[r] };
         Polygon pol3; pol3.poly = { p, poly[l], poly[r] };
         return (isEq(polTot.area(), pol1.area() + pol2.area() + pol3.area()));
+    }
+
+    bool insideNoneConvex(Point p) {
+        int cnt = 0;
+        for (int i = 0; i < poly.size(); ++i) {
+            Point l = poly[i];
+            Point r = poly[(i + 1) % poly.size()];
+            if (l.y == r.y) continue;
+            if (p.y == max(l.y, r.y) && p.x < min(l.x, r.x)) {
+                cnt++;
+                continue;
+            }
+            if (p.y == min(l.y, r.y)) continue;
+            if (l.y > r.y) swap(l, r);
+            ld le = (r.x - l.x) * (p.y - l.y);
+            ld re = (r.y - l.y) * (p.x - l.x);
+            ld res = le - re;
+            if (fabsl(res) < eps) return true;
+            if (res > eps && min(l.y, r.y) <= p.y && p.y <= max(l.y, r.y)) cnt++;
+        }
+        return (cnt & 1);
     }
 
     //Алгоритм поиска выпуклой оболочки (Грэхема)
@@ -220,6 +241,6 @@ struct Polygon {
         }
 
         Polygon convex; convex.poly = res;
-	    return convex;
+	return convex;
     }
 };
