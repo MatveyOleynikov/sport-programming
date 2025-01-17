@@ -1,7 +1,6 @@
 namespace algebra {
-    int mas = 1e6 + 1; /// важно чекнуть mas
-    int mod = 998244353; /// важно чекнуть модуль
-    long long n;
+    //int mas = 1e6 + 1; /// важно чекнуть mas
+    //int mod = 998244353; /// важно чекнуть модуль
 
     int add(const int a, const int b) {
         if (a + b < mod) {
