@@ -64,7 +64,7 @@ namespace algebra {
     }
 
     int C(int n, int k) {
-        return fac(n) * ifac(k) * ifac(n - k);
+        return mul(mul(fac(n), ifac(k)), ifac(n - k));
     }
 
     int P(int n) {
@@ -72,7 +72,7 @@ namespace algebra {
     }
 
     int A(int n, int k) {
-        return fac(n) * ifac(n - k);
+        return mul(fac(n), ifac(n - k));
     }
 };
 
