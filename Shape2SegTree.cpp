@@ -144,7 +144,7 @@ struct Shape2SegTree {
         this->y = y;
         this->value = value;
 
-        prpgram_update(0, 0, n - 1);
+        prpgram_update(1, 0, n - 1);
     }
 
     int get(int xl, int yl, int xr, int yr) {
@@ -153,7 +153,7 @@ struct Shape2SegTree {
         this->xr = xr;
         this->yr = yr;
 
-        return get(0, 0, n - 1);
+        return get(1, 0, n - 1);
     }
 };
 
