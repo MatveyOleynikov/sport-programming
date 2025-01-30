@@ -1,15 +1,15 @@
-struct Shape2SegTree {
+struct DynamicSegTree {
     const int good_value = 0;
 
     int func(int a, int b) {
         return max(a, b);
     }
 
-    vector<pii> deti;
-    vi t;
+    vector<pair<int, int>> deti;
+    vector<int> t;
     int n;
 
-    Shape2SegTree(int n) {
+    DynamicSegTree(int n) {
         this->n = n;
         t = { good_value };
         deti = { {-1, -1} };
@@ -22,18 +22,14 @@ struct Shape2SegTree {
         return t.size() - 1;
     }
 
-    int x, y, value;
+    int ind, value;
 
-    bool in_bb(int Xl, int Xr, int Yl, int Yr) {
-        return Xl <= x && x <= Xr && Yl <= y && y <= Yr;
-    }
-
-    void update(int v, int Xl, int Xr, int Yl, int Yr) {
-        if (!in_bb(Xl, Xr, Yl, Yr)) {
+    void update(int v, int L, int R) {
+        if (R < ind || ind < L) {
             return;
         }
 
-        if (Xl == Xr && Yl == Yr) {
+        if (L == R) {
             t[v] = value;
             return;
         }
@@ -46,66 +42,101 @@ struct Shape2SegTree {
             deti[v].second = new_rebenok();
         }
 
-        if (Xr - Xl > Yr - Yl) {
-            int Xc = (Xr + Xl) / 2;
-            update(deti[v].first, Xl, Xc, Yl, Yr);
-            update(deti[v].second, Xc + 1, Xr, Yl, Yr);
-        }
-
-        else {
-            int Yc = (Yr + Yl) / 2;
-            update(deti[v].first, Xl, Xr, Yl, Yc);
-            update(deti[v].second, Xl, Xr, Yc + 1, Yr);
-        }
+        int C = (L + R) / 2;
+        update(deti[v].first, L, C);
+        update(deti[v].second, C + 1, R);
 
         t[v] = func(t[deti[v].first], t[deti[v].second]);
     }
 
-    int xl, yl, xr, yr;
+    int l, r;
 
-    bool intersect(int Xl, int Xr, int Yl, int Yr) {
-        if (Xl > xr || xl > Xr || Yl > yr || yl > Yr) {
-            return false;
-        }
-        return true;
-    }
-
-    bool below(int Xl, int Xr, int Yl, int Yr) {
-        if (xl <= Xl && Xr <= xr && yl <= Yl && Yr <= yr) {
-            return true;
-        }
-        return false;
-    }
-
-    int get(int v, int Xl, int Xr, int Yl, int Yr) {
+    int get(int v, int L, int R) {
         if (v == -1) {
             return good_value;
         }
 
-        if (!intersect(Xl, Xr, Yl, Yr)) {
+        if (r < L || R < l) {
             return good_value;
         }
 
-        if (below(Xl, Xr, Yl, Yr)) {
+        if (l <= L && R <= r) {
             return t[v];
         }
 
+        int C = (L + R) / 2;
+        return func(
+            get(deti[v].first, L, C),
+            get(deti[v].second, C + 1, R)
+        );
+    }
 
-        if (Xr - Xl > Yr - Yl) {
-            int Xc = (Xr + Xl) / 2;
-            return func(
-                get(deti[v].first, Xl, Xc, Yl, Yr),
-                get(deti[v].second, Xc +1, Xr, Yl, Yr)
-            );
+    int get(int l, int r) {
+        this->l = l;
+        this->r = r;
+
+        return get(0, 0, n - 1);
+    }
+
+    void update(int index, int value) {
+        this->ind = index;
+        this->value = value;
+
+        update(0, 0, n - 1);
+    }
+};
+
+struct Shape2SegTree {
+    const int good_value = 0;
+
+    int func(int a, int b) {
+        return max(a, b);
+    }
+
+    vector<DynamicSegTree> seg_trees;
+    int n;
+
+    Shape2SegTree(int n) {
+        this->n = n;
+        for (int i = 0; i < n * 4 + 10; ++i) {
+            seg_trees.push_back(DynamicSegTree(n));
+        }
+    }
+
+    int x, y, value;
+
+    void prpgram_update(int v, int Xl, int Xr) {
+        if (Xl > x || x > Xr) {
+            return;
         }
 
-        else {
-            int Yc = (Yr + Yl) / 2;
-            return func(
-                get(deti[v].first, Xl, Xr, Yl, Yc),
-                get(deti[v].second, Xl, Xr, Yc + 1, Yr)
-            );
+        seg_trees[v].update(y, value);
+
+        if (Xl == Xr) {
+            return;
         }
+
+        int Xc = (Xr + Xl) / 2;
+        prpgram_update(v * 2, Xl, Xc);
+        prpgram_update(v * 2 + 1, Xc + 1, Xr);
+    }
+
+    int xl, yl, xr, yr;
+
+    int get(int v, int Xl, int Xr) {
+        if (Xl > xr || xl > Xr) {
+            return good_value;
+        }
+
+        if (xl <= Xl && Xr <= xr) {
+            return seg_trees[v].get(yl, yr);
+        }
+
+        int Xc = (Xr + Xl) / 2;
+        return func(
+            get(v * 2, Xl, Xc),
+            get(v * 2 + 1, Xc + 1, Xr)
+        );
     }
 
     void update(int x, int y, int value) {
@@ -113,7 +144,7 @@ struct Shape2SegTree {
         this->y = y;
         this->value = value;
 
-        update(0, 0, n - 1, 0, n - 1);
+        prpgram_update(0, 0, n - 1);
     }
 
     int get(int xl, int yl, int xr, int yr) {
@@ -122,17 +153,46 @@ struct Shape2SegTree {
         this->xr = xr;
         this->yr = yr;
 
-        return get(0, 0, n - 1, 0, n - 1);
+        return get(0, 0, n - 1);
     }
 };
 
+pair<vi, vi> get_tin_and_tout(vvi& tree) {
+    return pair<vi, vi>();
+}
+
+int rnd(int N) {
+    int rnd1 = rand() << 16ll + rand();
+    return rnd1 % N;
+}
+
 void SOLVE::solve() {
-    Shape2SegTree tree(16);
+    //pair<vi, vi> tin_and_tout1 = get_tin_and_tout(tree1);
+    //pair<vi, vi> tin_and_tout2 = get_tin_and_tout(tree2);
 
-    tree.update(8, 7, 100);
-    tree.update(8, 9, 50);
+    int N = 160'000;
 
-    dbg(tree.get(7, 7, 10, 10));
+    Shape2SegTree seg_tree(N);
+
+    for (int i = 0; i < N; ++i) {
+        seg_tree.update(rnd(N), rnd(N), rnd(N));
+    }
+
+    int sm = 0;
+
+    for (int i = 0; i < N; ++i) {
+        sm += seg_tree.get(rnd(N), rnd(N), rnd(N), rnd(N));
+    }
+    
+    cout << sm << "\n";
+
+    //for (int i = 0; i < n; ++i) {
+    //    seg_tree.update(tin_and_tout1.first[i], tin_and_tout2.first[i], a[i]);
+    //}
+
+    //for (int i = 0; i < n; ++i) {
+    //    cout << seg_tree.get(tin_and_tout1.first[i], tin_and_tout2.first[i], tin_and_tout1.second[i], tin_and_tout2.second[i]) << "\n";
+    //}
 
     return;
 }
