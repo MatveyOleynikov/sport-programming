@@ -33,6 +33,11 @@ struct Shape2SegTree {
             return;
         }
 
+        if (Xl == Xr && Yl == Yr) {
+            t[v] = value;
+            return;
+        }
+
         if (deti[v].first == -1) {
             deti[v].first = new_rebenok();
         }
@@ -52,6 +57,8 @@ struct Shape2SegTree {
             update(deti[v].first, Xl, Xr, Yl, Yc);
             update(deti[v].second, Xl, Xr, Yc + 1, Yr);
         }
+
+        t[v] = func(t[deti[v].first], t[deti[v].second]);
     }
 
     int xl, yl, xr, yr;
@@ -106,7 +113,7 @@ struct Shape2SegTree {
         this->y = y;
         this->value = value;
 
-        update(0, 0, 0, n - 1, n - 1);
+        update(0, 0, n - 1, 0, n - 1);
     }
 
     int get(int xl, int yl, int xr, int yr) {
@@ -114,5 +121,18 @@ struct Shape2SegTree {
         this->yl = yl;
         this->xr = xr;
         this->yr = yr;
+
+        return get(0, 0, n - 1, 0, n - 1);
     }
 };
+
+void SOLVE::solve() {
+    Shape2SegTree tree(16);
+
+    tree.update(8, 7, 100);
+    tree.update(8, 9, 50);
+
+    dbg(tree.get(7, 7, 10, 10));
+
+    return;
+}
