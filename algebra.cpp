@@ -31,7 +31,7 @@ namespace algebra {
         return binpow(mul(n, n), k / 2);
     }
 
-    int div(const int a, const int b) {
+    int dv(const int a, const int b) {
         return mul(a, binpow(b, mod - 2));
     }
 
@@ -53,7 +53,7 @@ namespace algebra {
         vector<int> fac(mas + 1);
         fac[0] = 1;
         for (long long i = 1; i <= mas; ++i) {
-            fac[i] = mul(fac[i - 1], div(1, i));
+            fac[i] = mul(fac[i - 1], dv(1, i));
         }
         return fac;
     }
