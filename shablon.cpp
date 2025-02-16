@@ -32,6 +32,7 @@ using namespace std;
 #define int long long
 #define INT static_cast<int>
 
+#define sz(x) (int)(x).size()
 #define all(a)     a.begin(), a.end()
 #define sum(a)     ( accumulate (all(a), 0ll))
 #define mine(a)    (*min_element(all(a)))
