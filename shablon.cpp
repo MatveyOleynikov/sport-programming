@@ -32,7 +32,14 @@ using namespace std;
 #define int long long
 #define INT static_cast<int>
 
+#define FOR(i, a, b) for (int i=a; i<(b); i++)
+#define F0R(i, a) for (int i=0; i<(a); i++)
 #define sz(x) (int)(x).size()
+#define pb push_back
+#define fr first
+#define sc second
+#define lb lower_bound
+#define ub upper_bound
 #define all(a)     a.begin(), a.end()
 #define sum(a)     ( accumulate (all(a), 0ll))
 #define mine(a)    (*min_element(all(a)))
