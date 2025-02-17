@@ -33,7 +33,6 @@ using namespace std;
 #define INT static_cast<int>
 
 #define FOR(i, a, b) for (int i=a; i<(b); i++)
-#define F0R(i, a) for (int i=0; i<(a); i++)
 #define sz(x) (int)(x).size()
 #define pb push_back
 #define fr first
