@@ -40,6 +40,7 @@ using namespace std;
 #define sc second
 #define lb lower_bound
 #define ub upper_bound
+#define nl "\n"
 #define all(a)     a.begin(), a.end()
 #define sum(a)     ( accumulate (all(a), 0ll))
 #define mine(a)    (*min_element(all(a)))
