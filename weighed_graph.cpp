@@ -1,6 +1,6 @@
 struct weighed_graph{
-    long long n, m;
-    vector<vector<pair<long long, long long>>> g;
+    int n, m;
+    vector<vector<pair<int, int>>> g;
 
     weighed_graph(){
         n = 0;
@@ -18,7 +18,7 @@ struct weighed_graph{
         o << "Vertexes: " << cur.n << "\n";
         o << "Edges: " << cur.m << "\n";
 
-        for (long long u = 0; u < cur.n; ++u){
+        for (int u = 0; u < cur.n; ++u){
             o << u << ":";
             o << '(';
             for (auto [v, w]: cur.g[u]){
@@ -41,8 +41,8 @@ struct weighed_graph{
         cur.g.resize(cur.n);
 
         o >> cur.m;
-        for (long long i = 0; i < cur.m; ++i){
-            long long u, v, w;
+        for (int i = 0; i < cur.m; ++i){
+            int u, v, w;
             o >> u; u--;
             o >> v; v--;
             o >> w;
@@ -58,31 +58,31 @@ struct weighed_graph{
         m++;
     }
 
-    vector<long long> djkstra(long long start){
-        vector<long long> ans(n);
-        vector<long long> pr(n);
-        for (long long i = 0; i < n; i++) {
+    vector<int> djkstra(int start){
+        vector<int> ans(n);
+        vector<int> pr(n);
+        for (int i = 0; i < n; i++) {
             ans[i] = inf64;
             pr[i] = -1;   //Значение, обозначающее что из этой вершины возвращаться некуда
         }
 
         ans[start] = 0;
 
-        priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> q;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
 
         q.push({0, start});
 
         while (!q.empty()) {
-            pair<long long, long long> c = q.top();
+            pair<int, int> c = q.top();
             q.pop();
 
-            long long dst = c.first, v = c.second;
+            int dst = c.first, v = c.second;
 
             if (ans[v] < dst) {
                 continue;
             }
 
-            for (pair<long, long> e: g[v]) {
+            for (pair<int, int> e: g[v]) {
                 int u = e.first, len_vu = e.second;
 
                 int n_dst = dst + len_vu;
@@ -95,8 +95,8 @@ struct weighed_graph{
         }
 
         return ans;
-        /*vector<long long> path;
-        long long cur = end;
+        /*vector<int> path;
+        int cur = end;
         path.push_back(cur);
         while (pr[cur] != -1) {
             cur = pr[cur];
@@ -104,18 +104,18 @@ struct weighed_graph{
         }
         reverse(path.begin(), path.end());
         cout << "Shortest path between vertices " << start + 1 << " and " << end + 1 << " is: " << endl;
-        for (long long v: path) {
+        for (int v: path) {
             cout << v + 1 << ", ";
         }*/ /// если нужен сам путь
     }
 
     weighed_graph kraskal(){
         struct snm{
-            long long n;
-            vector<long long> clr;
-            vector<vector<long long>> obr_clr;
+            int n;
+            vector<int> clr;
+            vector<vector<int>> obr_clr;
 
-            void join(long long color1, long long color2){
+            void join(int color1, int color2){
                 if (obr_clr[color1].size() < obr_clr[color2].size()){
                     swap(color1, color2);
                 }
@@ -134,7 +134,7 @@ struct weighed_graph{
                 join(clr[u], clr[v]);
             }
 
-            snm(long long n){
+            snm(int n){
                 this->n = n;
 
                 clr.resize(n);
