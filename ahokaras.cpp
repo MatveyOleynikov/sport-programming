@@ -17,19 +17,21 @@ struct ahokaras {
             cur = next[cur][s[i] - 'a'];
         }
     }
-    int get_link(int cur, int sym) {
+ 
+    int transition(int cur, int sym) {
         if (cur == -1) return 0;
         if (next[cur][sym] != -1) return next[cur][sym];
-        return get_link(link[cur], sym);
+        return transition(link[cur], sym);
     }
+ 
     void bild_links() {
-        queue<int> edges; edges.push(0);
-        while (!edges.empty()) {
-            int cur = edges.front(); edges.pop();
+        queue<int> states; states.push(0);
+        while (!states.empty()) {
+            int cur = states.front(); states.pop();
             for (int i = 0; i < alphabet; ++i) {
                 if (next[cur][i] != -1) {
-                    link[next[cur][i]] = get_link(link[cur], i);
-                    edges.push(next[cur][i]);
+                    link[next[cur][i]] = transition(link[cur], i);
+                    states.push(next[cur][i]);
                 }
             }
         }
