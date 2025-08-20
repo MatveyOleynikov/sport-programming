@@ -128,7 +128,7 @@ void fast() {
 }
 
 struct SOLVE {
-    void input_data();
+    void input_data() {};
     void output_data();
     void brute();
     void generate_data();
@@ -136,7 +136,6 @@ struct SOLVE {
 };
 
 void SOLVE::solve() {
-    dbg("0p0");
 
     return;
 }
@@ -151,6 +150,7 @@ signed main() {
 
     for (int i = 1; i <= k; ++i) {
         SOLVE slv;
+        slv.input_data();
         slv.solve();
     }
 
