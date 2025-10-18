@@ -12,7 +12,7 @@ struct PersistentSegTree {
     vector<Node> t;int n;
     PersistentSegTree(int n) {
         t.reserve(n * 4 + 10); this->n = n;
-        t.push_back(Node{-1, -1, good_value});
+        t.push_back(Node{-1, -1, good_value})};
     int new_rebenok() {
         t.push_back(Node{ -1, -1, good_value });
         return t.size() - 1;}
