@@ -19,7 +19,7 @@ struct Euler {
                 else if (v2 == -1) v2 = i;
                 else bad = true;}
 
-        //Добавляет ребро чтобы свести путь к циклу
+        // сводит путь к циклу
         if (v1 != -1) {
             if (v2 != -1) add_edge(v1, v2);
             else bad = true;}
