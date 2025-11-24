@@ -9,7 +9,7 @@ struct Euler {
         int v = g[u][num].first.first;
         int obr_num = g[u][num].first.second;
         g[v][obr_num].second = 0;}
-    vi calc() { // ломает граф
+    vi calc() { // make graph not const
         int n = g.size(), v1 = -1, v2 = -1; bool bad = false;
         int first = 0; while (g[first].empty())  ++first;
 
@@ -19,7 +19,7 @@ struct Euler {
                 else if (v2 == -1) v2 = i;
                 else bad = true;}
 
-        // сводит путь к циклу
+        // path in cycle
         if (v1 != -1) {
             if (v2 != -1) add_edge(v1, v2);
             else bad = true;}
