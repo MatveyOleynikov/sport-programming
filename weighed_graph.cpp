@@ -13,45 +13,6 @@ struct weighed_graph{
         m = 0;
     }
 
-    friend ostream& operator<<(ostream& o, const weighed_graph& cur)
-    {
-        o << "Vertexes: " << cur.n << "\n";
-        o << "Edges: " << cur.m << "\n";
-
-        for (int u = 0; u < cur.n; ++u){
-            o << u << ":";
-            o << '(';
-            for (auto [v, w]: cur.g[u]){
-                o << '(';
-                o << v;
-                o << ',';
-                o << w;
-                o << ')';
-                o << ',';
-            }
-            o << ')';
-            o << '\n';
-        }
-        return o;
-    }
-
-    friend istream& operator>>(istream& o, weighed_graph& cur)
-    {
-        o >> cur.n;
-        cur.g.resize(cur.n);
-
-        o >> cur.m;
-        for (int i = 0; i < cur.m; ++i){
-            int u, v, w;
-            o >> u; u--;
-            o >> v; v--;
-            o >> w;
-            cur.g[u].push_back({v, w});
-            cur.g[v].push_back({u, w});
-        }
-        return o;
-    }
-
     void add_edge(int u, int v, int w){
         g[u].push_back({v, w});
         g[v].push_back({u, w});
