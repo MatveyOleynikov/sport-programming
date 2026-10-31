@@ -118,7 +118,7 @@ struct weighed_graph{
             }
         }
 
-        sort(all(edges));
+        sort(edges.begin(), edges.end());
 
         for (auto elem: edges){
             if (!my_snm.equal_snm(elem.second.first, elem.second.second)){
