@@ -112,8 +112,6 @@ struct weighed_graph{
 
         vector<pair<int, pii>> edges;
 
-        dbg(edges);
-
         for (int i = 0; i < this->n; ++i){
             for (auto elem: this->g[i]){
                 edges.push_back({elem.second, {i, elem.first}});
