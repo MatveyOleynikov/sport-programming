@@ -1,6 +1,7 @@
 struct weighed_graph{
+    using pii = pair<int, int>;
     int n, m;
-    vector<vector<pair<int, int>>> g;
+    vector<vector<pii> g;
 
     weighed_graph(){
         n = 0;
@@ -29,12 +30,12 @@ struct weighed_graph{
 
         ans[start] = 0;
 
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> q;
+        priority_queue<pii, vector<pii>, greater<pii>> q;
 
         q.push({0, start});
 
         while (!q.empty()) {
-            pair<int, int> c = q.top();
+            pii c = q.top();
             q.pop();
 
             int dst = c.first, v = c.second;
@@ -43,7 +44,7 @@ struct weighed_graph{
                 continue;
             }
 
-            for (pair<int, int> e: g[v]) {
+            for (pii e: g[v]) {
                 int u = e.first, len_vu = e.second;
 
                 int n_dst = dst + len_vu;
