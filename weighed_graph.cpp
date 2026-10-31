@@ -19,7 +19,7 @@ struct weighed_graph{
         m++;
     }
 
-    vector<int> djkstra(int start){
+    pair<int, vector<int>> djkstra(int start){
         vector<int> ans(n);
         vector<int> pr(n);
         for (int i = 0; i < n; i++) {
@@ -55,8 +55,7 @@ struct weighed_graph{
             }
         }
 
-        return ans;
-        /*vector<int> path;
+        vector<int> path;
         int cur = end;
         path.push_back(cur);
         while (pr[cur] != -1) {
@@ -64,10 +63,8 @@ struct weighed_graph{
             path.push_back(cur);
         }
         reverse(path.begin(), path.end());
-        cout << "Shortest path between vertices " << start + 1 << " and " << end + 1 << " is: " << endl;
-        for (int v: path) {
-            cout << v + 1 << ", ";
-        }*/ /// если нужен сам путь
+
+        return {ans, path};
     }
 
     weighed_graph kraskal(){
